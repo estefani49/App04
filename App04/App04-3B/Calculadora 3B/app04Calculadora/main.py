@@ -2,80 +2,75 @@ import flet as ft
 
 def calc_suma(txtNum1,txtNum2,lblResultado):
     try:
-        num1=float(num1.value.strip())
-        num2=float(num2.value.strip())
+        num1=float(txtNum1.value.strip())
+        num2=float(txtNum2.value.strip())
         resultado=num1+num2
         lblResultado.value=f"Resultado: {resultado}"
     except ValueError:
-        lblResultado.value="Error, ingresa valores correctos"
+        lblResultado.value="Error ingresa valores correctos"
         
 def calc_resta(txtNum1,txtNum2,lblResultado):
     try:
-        num1=float(num1.value.strip())
-        num2=float(num2.value.strip())
+        num1=float(txtNum1.value.strip())
+        num2=float(txtNum2.value.strip())
         resultado=num1-num2
         lblResultado.value=f"Resultado: {resultado}"
     except ValueError:
         lblResultado.value="Error ingresa valores correctos"
         
-def calc_multiplicacion(txtNum1,txtNum2,lblResultado):
+def calc_multi(txtNum1,txtNum2,lblResultado):
     try:
-        num1=float(num1.value.strip())
-        num2=float(num2.value.strip())
+        num1=float(txtNum1.value.strip())
+        num2=float(txtNum2.value.strip())
         resultado=num1*num2
         lblResultado.value=f"Resultado: {resultado}"
     except ValueError:
         lblResultado.value="Error ingresa valores correctos"
         
-def calc_division(num1,num2,lblResultado):
+def calc_divi(txtNum1,txtNum2,lblResultado):
     try:
-        txtNum1=float(txtNum1.value.strip())
-        txtNum2=float(txtNum2.value.strip())
-        resultado=txtNum1/txtNum2
+        num1=float(txtNum1.value.strip())
+        num2=float(txtNum2.value.strip())
+        resultado=num1/num2
         lblResultado.value=f"Resultado: {resultado}"
     except ValueError:
         lblResultado.value="Error ingresa valores correctos"
     except ZeroDivisionError:
         lblResultado.value="Error división por cero" 
-
+def on_calc_suma(e):
+    calc_suma(txtNum1,txtNum2,lblResultado)
+    page.update()
+def on_calc_resta(e):
+    calc_resta(txtNum1,txtNum2,lblResultado)
+    page.update()
+def on_calc_multi(e):
+    calc_multi(txtNum1,txtNum2,lblResultado)
+    page.update()
+def on_calc_divi(e):
+    calc_divi(txtNum1,txtNum2,lblResultado)
+    page.update()
+def limpiar(e):
+    txtNum1= ""
+    txtNum2= ""
+    lblResultado.vaule="Resultado: "
+    pager.update()
 
 def main(page: ft.Page):
     global txtNum1,txtNum2,lblResultado
+
     page.title = "Calculadora"
     page.bgcolor="green"
     
-    txtNum1=ft.TextField(label="Ingresa el primer número",color="yellow")
-    txtNum2=ft.TextField(label="Ingresa el segundo número",color="yellow")
-    lblResultado=ft.Text("Resultado: ",color="yellow")
+    txtNum1=ft.TextField(label="Ingresa el primer número",color="purple")
+    txtNum2=ft.TextField(label="Ingresa el segundo número",color="purple")
+    lblResultado=ft.Text("Resultado: ",color="purple")
     
-    btnSuma=ft.ElevatedButton(text="+",on_click=on_calc_suma)
-    btnResta=ft.ElevatedButton(text="-",on_click=on_calc_resta)
-    btnMultiplicacion=ft.ElevatedButton(text="*",on_click=on_calc_multiplicacion)
-    btnDivision=ft.ElevatedButton(text="/",on_click=on_calc_division)
-    btnLimpiar=ft.ElevatedButton(text="limpiar",on_click=limpiar)
-    
-    
-    def on_calc_suma(e):
-        calc_suma(txtNum1, txtNum2, lblResultado)
-        page.update()
-        
-    def on_calc_resta(e):
-        calc_suma(txtNum1, txtNum2, lblResultado)
-        page.update()
-    
-    def on_calc_multiplicacion(e):
-        calc_suma(txtNum1, txtNum2, lblResultado)
-        page.update()
-        
-    def on_calc_division(e):
-        calc_suma(txtNum1, txtNum2, lblResultado)
-        page.update()
-    
-    def limpiar(e):
-        txtNum1.value=" "
-        txtNum2.value=" "
-        lblResultado.value="Resultado: "
-        page.update()
+    btnsuma= ft.ElevatedButton(text="+",on_click=on_calc_suma)
+    btnresta=ft.ElevatedButton(text="-",on_click=on_calc_resta)
+    btnmulti=ft.ElevatedButton(text="*",on_click=on_calc_multi)
+    btndivi=ft.ElevatedButton(text="/",on_click=on_calc_divi)
+    btnlimpiar=ft.ElevatedButton(text="borrar",on_click=limpiar)
+
     
     page.add(
         ft.Column(controls=[
@@ -83,14 +78,16 @@ def main(page: ft.Page):
                 txtNum1,
                 txtNum2
             ],alignment="center"),
+             ft.Row(controls=[lblResultado],alignment="center"),
+             ft.Row(controls=[
+                 btnsuma,
+                 btnresta,
+                 btnmulti,
+                 btndivi,
+                 btnlimpiar
+             ], alignment="center")
         ]),
-        ft.Row(controls=[lblResultado],alignment="center"),
-        ft.Row(controls=[
-            btnSuma,
-            btnResta,
-            btnMultiplicacion,
-            btnDivision
-        ],alignment="center"),
+
     )
     
 
